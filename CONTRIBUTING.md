@@ -93,7 +93,7 @@ This guideline was adopted in [issue #391](https://github.com/ActivityWatch/acti
 
 We're experimenting with paying our contributors using funds we've raised from donations and grants. 
 
-The idea is you track your work with ActivityWatch (and ensure it gets categorized correctly), then you modify the [working_hours.py](https://github.com/ActivityWatch/aw-client/blob/master/examples/working_hours.py) script to use your category rule and generate a report of time worked per day and the matching events.
+The idea is you track your work with ActivityWatch (and ensure it gets categorized correctly), then you modify the [working_hours.py](https://github.com/ActivityWatch/sd-client/blob/master/examples/working_hours.py) script to use your category rule and generate a report of time worked per day and the matching events.
 
 If you've contributed to ActivityWatch (for a minimum of 10h) and want to get paid for your time, contact us!
 

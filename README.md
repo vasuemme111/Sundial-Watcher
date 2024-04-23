@@ -93,7 +93,7 @@
 
 ## About
 
-The goal of ActivityWatch is simple: *Enable the collection of as much valuable lifedata as possible without compromising user privacy.*
+The goal of Sundial is simple: *Enable the collection of as much valuable lifedata as possible without compromising user privacy.*
 
 We've worked towards this goal by creating an application for safe storage of the data on the user's local machine and as well as a set of watchers which record data such as:
 
@@ -146,13 +146,13 @@ We have a plan to address all of these and we're well on our way. See the table 
 
 |               | User owns data     | GUI                | Sync                       | Open Source        |
 | ------------- |:------------------:|:------------------:|:--------------------------:|:------------------:|
-| ActivityWatch | :white_check_mark: | :white_check_mark: | [WIP][sync], decentralized | :white_check_mark: |
+| Sundial         | :white_check_mark: | :white_check_mark: | [WIP][sync], decentralized | :white_check_mark: |
 | [Selfspy]       | :white_check_mark: | :x:                | :x:                        | :white_check_mark: |
 | [ulogme]        | :white_check_mark: | :white_check_mark: | :x:                        | :white_check_mark: |
 | [RescueTime]    | :x:                | :white_check_mark: | Centralized                | :x:                |
 | [WakaTime]      | :x:                | :white_check_mark: | Centralized                | Clients            |
 
-[sync]: https://github.com/ActivityWatch/activitywatch/issues/35
+[sync]: https://github.com/ASundial/Sundial/issues/35
 [Selfspy]: https://github.com/selfspy/selfspy
 [ulogme]: https://github.com/karpathy/ulogme
 [RescueTime]: https://www.rescuetime.com/
@@ -163,7 +163,7 @@ We have a plan to address all of these and we're well on our way. See the table 
 
 |               | Windows            | macOS              | Linux              | Android            | iOS                 |
 | ------------- |:------------------:|:------------------:|:------------------:|:------------------:|:-------------------:|
-| ActivityWatch | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |:x:                  |
+| Sundial       | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |:x:                  |
 | Selfspy       | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |:x:                  |
 | ulogme        | :x:                | :white_check_mark: | :white_check_mark: | :x:                |:x:                  |
 | RescueTime    | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |Limited functionality|
@@ -172,22 +172,22 @@ We have a plan to address all of these and we're well on our way. See the table 
 
 |               | App & Window Title | AFK                | Browser Extensions | Editor Plugins     | Extensible            |
 | ------------- |:------------------:|:------------------:|:------------------:|:------------------:|:---------------------:|
-| ActivityWatch | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:    |
+| Sundial | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:    |
 | Selfspy       | :white_check_mark: | :white_check_mark: | :x:                | :x:                | :x:                   |
 | ulogme        | :white_check_mark: | :white_check_mark: | :x:                | :x:                | :x:                   |
 | RescueTime    | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                   |
 | WakaTime      | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | Only for text editors |
 
-For a complete list of the things ActivityWatch can track, [see the page on *watchers* in the documentation](https://docs.activitywatch.net/en/latest/watchers.html).
+For a complete list of the things Sundial can track, [see the page on *watchers* in the documentation](https://docs.Sundial.net/en/latest/watchers.html).
 
 
 ## About this repository
 
-This repo is a bundle of the core components and official modules of ActivityWatch (managed with `git submodule`). Its primary use is as a meta-package providing all the components in one repo; enabling easier packaging and installation. It is also where releases of the full suite are published (see [releases](https://github.com/ActivityWatch/activitywatch/releases)).
+This repo is a bundle of the core components and official modules of Sundial (managed with `git submodule`). Its primary use is as a meta-package providing all the components in one repo; enabling easier packaging and installation. It is also where releases of the full suite are published (see [releases](https://github.com/Sundial/Sundial/releases)).
 
 ### Server
 
-`aw-server` is the official implementation of the core service which the other ActivityWatch services interact with. It provides a REST API to a datastore and query engine. It also serves the web interface developed in the `aw-webui` project (which provides the frontend part of the webapp).
+`sd-server` is the official implementation of the core service which the other Sundial services interact with. It provides a REST API to a datastore and query engine. It also serves the web interface developed in the `sd-webui` project (which provides the frontend part of the webapp).
 
 The REST API includes:
 
@@ -202,21 +202,21 @@ The webapp includes:
 
 ### Watchers
 
-ActivityWatch comes pre-installed with two watchers:
+Sundial comes pre-installed with two watchers:
 
- - `aw-watcher-afk` tracks the user active/inactive state from keyboard and mouse input
- - `aw-watcher-window` tracks the currently active application and its window title.
+ - `sd-watcher-afk` tracks the user active/inactive state from keyboard and mouse input
+ - `sd-watcher-window` tracks the currently active application and its window title.
 
-There are lots of other watchers for ActivityWatch which can track more types of activity. Like `aw-watcher-web` which tracks time spent on websites, multiple editor watchers which track spent time coding, and many more! A full list of watchers can be found in [the documentation](https://docs.activitywatch.net/en/latest/watchers.html).
+There are lots of other watchers for Sundial which can track more types of activity. Like `sd-watcher-web` which tracks time spent on websites, multiple editor watchers which track spent time coding, and many more! A full list of watchers can be found in [the documentation](https://docs.Sundial.net/en/latest/watchers.html).
 
 ### Libraries
 
- - `aw-core` - core library, provides no runnable modules
- - `aw-client` - client library, useful when writing watchers
+ - `sd-core` - core library, provides no runnable modules
+ - `sd-client` - client library, useful when writing watchers
 
 ### Folder structure
 
-<span><img src="https://raw.githubusercontent.com/ActivityWatch/activitywatch/master/diagram.svg" width="60%"></span>
+<span><img src="https://raw.githubusercontent.com/SundialSundial/master/diagram.svg" width="60%"></span>
 
 ## Contributing
 
@@ -224,5 +224,5 @@ Want to help? Great! Check out the [CONTRIBUTING.md file](./CONTRIBUTING.md)!
 
 ## Questions and support
 
-Have a question, suggestion, problem, or just want to say hi? Post on [the forum](https://forum.activitywatch.net/)!
+Have a question, suggestion, problem, or just want to say hi? Post on [the forum](https://forum.Sundial.net/)!
 

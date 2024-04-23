@@ -7,7 +7,7 @@ import shlex
 import subprocess
 from pathlib import Path
 
-import aw_core
+import sd_core
 import flask_restx
 
 current_release = subprocess.run(
@@ -23,18 +23,18 @@ codesign_identity = os.environ.get("APPLE_PERSONALID", "").strip()
 if not codesign_identity:
     print("Environment variable APPLE_PERSONALID not set. Releases won't be signed.")
 
-aw_core_path = Path(os.path.dirname(aw_core.__file__))
+sd_core_path = Path(os.path.dirname(sd_core.__file__))
 restx_path = Path(os.path.dirname(flask_restx.__file__))
 
-aws_location = Path("aw-server")
-aw_qt_location = Path("aw-qt")
-awa_location = Path("aw-watcher-afk")
-aww_location = Path("aw-watcher-window")
+sds_location = Path("sd-server")
+sd_qt_location = Path("sd-qt")
+sda_location = Path("sd-watcher-afk")
+sdw_location = Path("sd-watcher-window")
 
 if platform.system() == "Darwin":
-    icon = aw_qt_location / "media/logo/logo.icns"
+    icon = sd_qt_location / "media/logo/logo.icns"
 else:
-    icon = aw_qt_location / "media/logo/logo.ico"
+    icon = sd_qt_location / "media/logo/logo.ico"
 block_cipher = None
 
 extra_pathex = []
@@ -47,15 +47,15 @@ if platform.system() == "Windows":
     pyqt_path = os.path.dirname(PyQt5.__file__)
     extra_pathex.append(pyqt_path + "\\Qt\\bin")
 
-aw_server_a = Analysis(
-    ["aw-server/__main__.py"],
+sd_server_a = Analysis(
+    ["sd-server/__main__.py"],
     pathex=[],
     binaries=None,
     datas=[
-        (aws_location / "aw_server/static", "aw_server/static"),
+        (sds_location / "sd_server/static", "sd_server/static"),
         (restx_path / "templates", "flask_restx/templates"),
         (restx_path / "static", "flask_restx/static"),
-        (aw_core_path / "schemas", "aw_core/schemas"),
+        (sd_core_path / "schemas", "sd_core/schemas"),
     ],
     hiddenimports=[
     'reportlab',
@@ -93,14 +93,14 @@ elif platform.system() == "Darwin":
     ]
 
 datas = [
-    (aw_qt_location / "resources/aw-qt.desktop", "aw_qt/resources"),
-    (aw_qt_location / "media", "aw_qt/media"),
+    (sd_qt_location / "resources/sd-qt.desktop", "sd_qt/resources"),
+    (sd_qt_location / "media", "sd_qt/media"),
 ]
 
 datas += dependent_datas  # Combine datas and dependent_datas
 
-aw_qt_a = Analysis(
-    [aw_qt_location / "aw_qt/__main__.py"],
+sd_qt_a = Analysis(
+    [sd_qt_location / "sd_qt/__main__.py"],
     pathex=[] + extra_pathex,
     binaries=None,
     datas=datas,
@@ -113,8 +113,8 @@ aw_qt_a = Analysis(
     cipher=block_cipher,
 )
 
-aw_watcher_afk_a = Analysis(
-    [awa_location / "aw_watcher_afk/__main__.py"],
+sd_watcher_afk_a = Analysis(
+    [sda_location / "sd_watcher_afk/__main__.py"],
     pathex=[],
     binaries=None,
     datas=None,
@@ -148,19 +148,19 @@ aw_watcher_afk_a = Analysis(
     cipher=block_cipher,
 )
 
-aw_watcher_window_a = Analysis(
-    [aww_location / "aw_watcher_window/__main__.py"],
+sd_watcher_window_a = Analysis(
+    [sdw_location / "sd_watcher_window/__main__.py"],
     pathex=[],
     binaries=[
         (
-            aww_location / "aw_watcher_window/aw-watcher-window-macos",
-            "aw_watcher_window",
+            sdw_location / "sd_watcher_window/sd-watcher-window-macos",
+            "sd_watcher_window",
         )
     ]
     if platform.system() == "Darwin"
     else [],
     datas=[
-        (aww_location / "aw_watcher_window/printAppStatus.jxa", "aw_watcher_window")
+        (sdw_location / "sd_watcher_window/printAppStatus.jxa", "sd_watcher_window")
     ],
     hiddenimports=[],
     hookspath=[],
@@ -175,20 +175,20 @@ aw_watcher_window_a = Analysis(
 # MERGE takes a bit weird arguments, it wants tuples which consists of
 # the analysis paired with the script name and the bin name
 MERGE(
-    (aw_server_a, "aw-server", "aw-server"),
-    (aw_qt_a, "aw-qt", "aw-qt"),
-    (aw_watcher_afk_a, "aw-watcher-afk", "aw-watcher-afk"),
-    (aw_watcher_window_a, "aw-watcher-window", "aw-watcher-window"),
+    (sd_server_a, "sd-server", "sd-server"),
+    (sd_qt_a, "sd-qt", "sd-qt"),
+    (sd_watcher_afk_a, "sd-watcher-afk", "sd-watcher-afk"),
+    (sd_watcher_window_a, "sd-watcher-window", "sd-watcher-window"),
 )
 
-aww_pyz = PYZ(
-    aw_watcher_window_a.pure, aw_watcher_window_a.zipped_data, cipher=block_cipher
+sdw_pyz = PYZ(
+    sd_watcher_window_a.pure, sd_watcher_window_a.zipped_data, cipher=block_cipher
 )
-aww_exe = EXE(
-    aww_pyz,
-    aw_watcher_window_a.scripts,
+sdw_exe = EXE(
+    sdw_pyz,
+    sd_watcher_window_a.scripts,
     exclude_binaries=True,
-    name="aw-watcher-window",
+    name="sd-watcher-window",
     debug=False,
     strip=False,
     upx=True,
@@ -196,22 +196,22 @@ aww_exe = EXE(
     entitlements_file=entitlements_file,
     codesign_identity=codesign_identity,
 )
-aww_coll = COLLECT(
-    aww_exe,
-    aw_watcher_window_a.binaries,
-    aw_watcher_window_a.zipfiles,
-    aw_watcher_window_a.datas,
+sdw_coll = COLLECT(
+    sdw_exe,
+    sd_watcher_window_a.binaries,
+    sd_watcher_window_a.zipfiles,
+    sd_watcher_window_a.datas,
     strip=False,
     upx=True,
-    name="aw-watcher-window",
+    name="sd-watcher-window",
 )
 
-awa_pyz = PYZ(aw_watcher_afk_a.pure, aw_watcher_afk_a.zipped_data, cipher=block_cipher)
-awa_exe = EXE(
-    awa_pyz,
-    aw_watcher_afk_a.scripts,
+sda_pyz = PYZ(sd_watcher_afk_a.pure, sd_watcher_afk_a.zipped_data, cipher=block_cipher)
+sda_exe = EXE(
+    sda_pyz,
+    sd_watcher_afk_a.scripts,
     exclude_binaries=True,
-    name="aw-watcher-afk",
+    name="sd-watcher-afk",
     debug=False,
     strip=False,
     upx=True,
@@ -219,23 +219,23 @@ awa_exe = EXE(
     entitlements_file=entitlements_file,
     codesign_identity=codesign_identity,
 )
-awa_coll = COLLECT(
-    awa_exe,
-    aw_watcher_afk_a.binaries,
-    aw_watcher_afk_a.zipfiles,
-    aw_watcher_afk_a.datas,
+sda_coll = COLLECT(
+    sda_exe,
+    sd_watcher_afk_a.binaries,
+    sd_watcher_afk_a.zipfiles,
+    sd_watcher_afk_a.datas,
     strip=False,
     upx=True,
-    name="aw-watcher-afk",
+    name="sd-watcher-afk",
 )
 
-aws_pyz = PYZ(aw_server_a.pure, aw_server_a.zipped_data, cipher=block_cipher)
+sds_pyz = PYZ(sd_server_a.pure, sd_server_a.zipped_data, cipher=block_cipher)
 
-aws_exe = EXE(
-    aws_pyz,
-    aw_server_a.scripts,
+sds_exe = EXE(
+    sds_pyz,
+    sd_server_a.scripts,
     exclude_binaries=True,
-    name="aw-server",
+    name="sd-server",
     debug=False,
     strip=False,
     upx=True,
@@ -243,22 +243,22 @@ aws_exe = EXE(
     entitlements_file=entitlements_file,
     codesign_identity=codesign_identity,
 )
-aws_coll = COLLECT(
-    aws_exe,
-    aw_server_a.binaries,
-    aw_server_a.zipfiles,
-    aw_server_a.datas,
+sds_coll = COLLECT(
+    sds_exe,
+    sd_server_a.binaries,
+    sd_server_a.zipfiles,
+    sd_server_a.datas,
     strip=False,
     upx=True,
-    name="aw-server",
+    name="sd-server",
 )
 
-awq_pyz = PYZ(aw_qt_a.pure, aw_qt_a.zipped_data, cipher=block_cipher)
-awq_exe = EXE(
-    awq_pyz,
-    aw_qt_a.scripts,
+sdq_pyz = PYZ(sd_qt_a.pure, sd_qt_a.zipped_data, cipher=block_cipher)
+sdq_exe = EXE(
+    sdq_pyz,
+    sd_qt_a.scripts,
     exclude_binaries=True,
-    name="aw-qt",
+    name="sd-qt",
     debug=True,
     strip=False,
     upx=True,
@@ -267,29 +267,29 @@ awq_exe = EXE(
     entitlements_file=entitlements_file,
     codesign_identity=codesign_identity,
 )
-awq_coll = COLLECT(
-    awq_exe,
-    aw_qt_a.binaries,
-    aw_qt_a.zipfiles,
-    aw_qt_a.datas,
+sdq_coll = COLLECT(
+    sdq_exe,
+    sd_qt_a.binaries,
+    sd_qt_a.zipfiles,
+    sd_qt_a.datas,
     strip=False,
     upx=True,
-    name="aw-qt",
+    name="sd-qt",
 )
 
 if platform.system() == "Darwin":
     app = BUNDLE(
-        awq_coll,
-        aww_coll,
-        awa_coll,
-        aws_coll,
+        sdq_coll,
+        sdw_coll,
+        sda_coll,
+        sds_coll,
         name="TTim.app",
         icon=icon,
         bundle_identifier="net.ralvie.TTim",
         version=current_release.lstrip("v"),
         info_plist={
             "NSPrincipalClass": "NSApplication",
-            "CFBundleExecutable": "MacOS/aw-qt",
+            "CFBundleExecutable": "MacOS/sd-qt",
             "CFBundleIconFile": "logo.icns",
             "NSAppleEventsUsageDescription": "Please grant access to use Apple Events",
             # This could be set to a more specific version string (including the commit id, for example)

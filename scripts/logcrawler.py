@@ -4,11 +4,11 @@ from datetime import datetime
 from collections import defaultdict
 import logging
 
-import aw_core
+import sd_core
 
 logging.basicConfig()
 
-log_dir = aw_core.dirs.get_log_dir("")
+log_dir = sd_core.dirs.get_log_dir("")
 
 
 def get_filepaths():

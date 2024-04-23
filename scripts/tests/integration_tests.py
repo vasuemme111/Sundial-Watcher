@@ -17,22 +17,22 @@ def _windows_kill_process(pid):
 
 
 # NOTE: to run tests with a specific server binary,
-#       set the PATH such that it is the "aw-server" binary.
+#       set the PATH such that it is the "sd-server" binary.
 @pytest.fixture(scope="session")
 def server_process():
     logfile_stdout = tempfile.NamedTemporaryFile(delete=False)
     logfile_stderr = tempfile.NamedTemporaryFile(delete=False)
 
-    # find the path of the "aw-server" binary and log it
-    which_server = subprocess.check_output(["which", "aw-server"], text=True)
-    print(f"aw-server path: {which_server}")
+    # find the path of the "sd-server" binary and log it
+    which_server = subprocess.check_output(["which", "sd-server"], text=True)
+    print(f"sd-server path: {which_server}")
 
-    # if aw-server-rust in PATH, assert that we're picking up the aw-server-rust binary
-    if "aw-server-rust" in os.environ["PATH"]:
-        assert "aw-server-rust" in which_server
+    # if sd-server-rust in PATH, assert that we're picking up the sd-server-rust binary
+    if "sd-server-rust" in os.environ["PATH"]:
+        assert "sd-server-rust" in which_server
 
     server_proc = subprocess.Popen(
-        ["aw-server", "--testing"], stdout=logfile_stdout, stderr=logfile_stderr
+        ["sd-server", "--testing"], stdout=logfile_stdout, stderr=logfile_stderr
     )
 
     # Wait for server to start up properly
@@ -58,7 +58,7 @@ def server_process():
 
     with open(logfile_stderr.name, "r+b") as f:
         stderr = str(f.read(), "utf8")
-        # For some reason, this fails aw-server-rust, but not aw-server-python
+        # For some reason, this fails sd-server-rust, but not sd-server-python
         # if not stderr:
         #    pytest.fail("No output to stderr from server")
 
@@ -79,6 +79,6 @@ def test_integration(server_process):
     # This is just here so that the server_process fixture is initialized
     pass
 
-    # exit_code = pytest.main(["./aw-server/tests", "-v"])
+    # exit_code = pytest.main(["./sd-server/tests", "-v"])
     # if exit_code != 0:
     #     pytest.fail("Tests exited with non-zero code: " + str(exit_code))

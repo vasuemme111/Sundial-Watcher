@@ -8,12 +8,12 @@ license = "MPL-2.0"
 [tool.poetry.dependencies]
 python = "^3.8,<3.13"
 # Installing them from here won't work
-#aw-core = {path = "aw-core"}
-#aw-client = {path = "aw-client"}
-#aw-watcher-afk = {path = "aw-watcher-afk"}
-#aw-watcher-window = {path = "aw-watcher-window"}
-#aw-server = {path = "aw-server"}
-#aw-qt = {path = "aw-qt"}
+#aw-core = {path = "sd-core"}
+#aw-client = {path = "sd-client"}
+#aw-watcher-afk = {path = "sd-watcher-afk"}
+#aw-watcher-window = {path = "sd-watcher-window"}
+#aw-server = {path = "sd-server"}
+#aw-qt = {path = "sd-qt"}
 
 # https://github.com/ionrock/cachecontrol/issues/292
 urllib3 = "<2"

@@ -3,8 +3,8 @@
 Script that outputs a changelog for the repository in the current directory and its submodules.
 
 Manual actions needed to clean up for changelog:
- - Reorder modules in a logical order (aw-webui, aw-server, aw-server-rust, aw-watcher-window, aw-watcher-afk, ...)
- - Remove duplicate aw-webui entries
+ - Reorder modules in a logical order (sd-webui, sd-server, sd-server-rust, sd-watcher-window, sd-watcher-afk, ...)
+ - Remove duplicate sd-webui entries
 """
 import argparse
 import logging
@@ -56,14 +56,14 @@ def main():
     # preferred output order for submodules
     repo_order = [
         "TTim",
-        "aw-server",
-        "aw-server-rust",
-        "aw-webui",
-        "aw-watcher-afk",
-        "aw-watcher-window",
-        "aw-qt",
-        "aw-core",
-        "aw-client",
+        "sd-server",
+        "sd-server-rust",
+        "sd-webui",
+        "sd-watcher-afk",
+        "sd-watcher-window",
+        "sd-qt",
+        "sd-core",
+        "sd-client",
     ]
 
     build(
@@ -227,8 +227,8 @@ def summary_repo(
                 out += entries
 
     # NOTE: For now, these TODOs can be manually fixed for each changelog.
-    # TODO: Fix issue where subsubmodules can appear twice (like aw-webui)
-    # TODO: Use specific order (aw-webui should be one of the first, for example)
+    # TODO: Fix issue where subsubmodules can appear twice (like sd-webui)
+    # TODO: Use specific order (sd-webui should be one of the first, for example)
     summary_subrepos = run(
         f"git submodule summary --cached {commit_range[0]}", cwd=path
     )
@@ -275,7 +275,7 @@ def summary_repo(
     return out
 
 
-# FIXME: Doesn't work, messy af, just gonna have to remove the aw-webui section by hand
+# FIXME: Doesn't work, messy af, just gonna have to remove the sd-webui section by hand
 def remove_duplicates(s: List[str], minlen=10, only_sections=True) -> List[str]:
     """
     Removes the longest sequence of repeated elements (they don't have to be adjacent), if sequence if longer than `minlen`.

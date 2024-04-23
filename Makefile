@@ -11,11 +11,11 @@
 
 SHELL := /usr/bin/env bash
 
-SUBMODULES := aw-core aw-client aw-qt aw-server aw-watcher-afk aw-watcher-window
+SUBMODULES := sd-core sd-client sd-qt sd-server sd-watcher-afk sd-watcher-window
 
-# Include extras if AW_EXTRAS is true
-ifeq ($(AW_EXTRAS),true)
-	SUBMODULES := $(SUBMODULES) aw-notify aw-watcher-input
+# Include extras if ASD_EXTRAS is true
+ifeq ($(SD_EXTRAS),true)
+	SUBMODULES := $(SUBMODULES) sd-notify sd-watcher-input
 endif
 
 # A function that checks if a target exists in a Makefile
@@ -35,9 +35,9 @@ TYPECHECKABLES := $(foreach dir,$(SUBMODULES),$(call has_target,$(dir),typecheck
 #
 # What it does:
 #  - Installs all the Python modules
-#  - Builds the web UI and bundles it with aw-server
+#  - Builds the web UI and bundles it with sd-server
 build:
-	if [ -e "aw-core/.git" ]; then \
+	if [ -e "sd-core/.git" ]; then \
 		echo "Submodules seem to already be initialized, continuing..."; \
 	else \
 		git submodule update --init --recursive; \
@@ -50,10 +50,10 @@ build:
 		make --directory=$$module build SKIP_WEBUI=$(SKIP_WEBUI); \
 	done
 #   The below is needed due to: https://github.com/ActivityWatch/activitywatch/issues/173
-	make --directory=aw-client build
-	make --directory=aw-core build
+	make --directory=sd-client build
+	make --directory=sd-core build
 #	Needed to ensure that the server has the correct version set
-	python -c "import aw_server; print(aw_server.__version__)"
+	python -c "import sd_server; print(sd_server.__version__)"
 
 
 # Install
@@ -62,7 +62,7 @@ build:
 # Installs things like desktop/menu shortcuts.
 # Might in the future configure autostart on the system.
 install:
-	make --directory=aw-qt install
+	make --directory=sd-qt install
 # Installation is already happening in the `make build` step currently.
 # We might want to change this.
 # We should also add some option to install as user (pip3 install --user)
@@ -94,7 +94,7 @@ typecheck:
 #
 # Uninstalls all the Python modules.
 uninstall:
-	modules=$$(pip3 list --format=legacy | grep 'aw-' | grep -o '^aw-[^ ]*'); \
+	modules=$$(pip3 list --format=legacy | grep 'sd-' | grep -o '^sd-[^ ]*'); \
 	for module in $$modules; do \
 		echo "Uninstalling $$module"; \
 		pip3 uninstall -y $$module; \
@@ -107,16 +107,16 @@ test:
     done
 
 test-integration:
-	# TODO: Move "integration tests" to aw-client
+	# TODO: Move "integration tests" to sd-client
 	# FIXME: For whatever reason the script stalls on Appveyor
 	#        Example: https://ci.appveyor.com/project/ErikBjare/activitywatch/build/1.0.167/job/k1ulexsc5ar5uv4v
-	# aw-server-python
-	@echo "== Integration testing aw-server =="
-	@pytest ./scripts/tests/integration_tests.py ./aw-server/tests/ -v
+	# sd-server-python
+	@echo "== Integration testing sd-server =="
+	@pytest ./scripts/tests/integration_tests.py ./sd-server/tests/ -v
 
-ICON := "aw-qt/media/logo/logo.png"
+ICON := "sd-qt/media/logo/logo.png"
 
-aw-qt/media/logo/logo.icns:
+sd-qt/media/logo/logo.icns:
 	mkdir -p build/MyIcon.iconset
 	sips -z 16 16     $(ICON) --out build/MyIcon.iconset/icon_16x16.png
 	sips -z 32 32     $(ICON) --out build/MyIcon.iconset/icon_16x16@2x.png
@@ -130,10 +130,10 @@ aw-qt/media/logo/logo.icns:
 	cp				  $(ICON)       build/MyIcon.iconset/icon_512x512@2x.png
 	iconutil -c icns build/MyIcon.iconset
 	rm -R build/MyIcon.iconset
-	mv build/MyIcon.icns aw-qt/media/logo/logo.icns
+	mv build/MyIcon.icns sd-qt/media/logo/logo.icns
 
-dist/TTim.app: aw-qt/media/logo/logo.icns
-	pyinstaller --clean --noconfirm aw.spec
+dist/TTim.app: sd-qt/media/logo/logo.icns
+	pyinstaller --clean --noconfirm sd.spec
 
 dist/TTim.dmg: dist/TTim.app
 	# NOTE: This does not codesign the dmg, that is done in the CI config
@@ -150,16 +150,16 @@ package:
 		make --directory=$$dir package; \
 		cp -r $$dir/dist/$$dir dist/TTim; \
 	done
-# Move aw-qt to the root of the dist folder
-	mv dist/TTim/aw-qt aw-qt-tmp
-	mv aw-qt-tmp/* dist/TTim
-	rmdir aw-qt-tmp
+# Move sd-qt to the root of the dist folder
+	mv dist/TTim/sd-qt sd-qt-tmp
+	mv sd-qt-tmp/* dist/TTim
+	rmdir sd-qt-tmp
 # Remove problem-causing binaries
 	rm -f dist/TTim/libdrm.so.2       # see: https://github.com/ActivityWatch/activitywatch/issues/161
 	rm -f dist/TTim/libharfbuzz.so.0  # see: https://github.com/ActivityWatch/activitywatch/issues/660#issuecomment-959889230
 # These should be provided by the distro itself
 # Had to be removed due to otherwise causing the error:
-#   aw-qt: symbol lookup error: /opt/activitywatch/libQt5XcbQpa.so.5: undefined symbol: FT_Get_Font_Format
+#   sd-qt: symbol lookup error: /opt/activitywatch/libQt5XcbQpa.so.5: undefined symbol: FT_Get_Font_Format
 	rm -f dist/TTim/libfontconfig.so.1
 	rm -f dist/TTim/libfreetype.so.6
 # Remove unnecessary files
@@ -177,5 +177,5 @@ clean_all: clean
 	done
 
 clean-auto:
-	rm -rIv **/aw-android/mobile/build
+	rm -rIv **/sd-android/mobile/build
 	rm -rIfv **/node_modules
