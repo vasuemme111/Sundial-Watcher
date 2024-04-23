@@ -2,10 +2,10 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "TTim"
-#define MyAppVersion GetEnv('AW_VERSION')
+#define MyAppVersion GetEnv('SD_VERSION')
 #define MyAppPublisher "TTim Contributors"
 #define MyAppURL "https://TTim.net/"
-#define MyAppExeName "aw-qt.exe"
+#define MyAppExeName "sd-qt.exe"
 #define RootDir "..\.."
 #define DistDir "..\..\dist"
 
@@ -30,7 +30,7 @@ PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir={#DistDir}
 OutputBaseFilename=TTim-setup
-SetupIconFile="{#RootDir}\aw-qt\media\logo\logo.ico"
+SetupIconFile="{#RootDir}\sd-qt\media\logo\logo.ico"
 UninstallDisplayName={#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma
@@ -45,7 +45,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "StartMenuEntry" ; Description: "Start TTim when Windows starts"; GroupDescription: "Windows Startup"; MinVersion: 4,4;
 
 [Files]
-Source: "{#DistDir}\TTim\aw-qt.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#DistDir}\TTim\sd-qt.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#DistDir}\TTim\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

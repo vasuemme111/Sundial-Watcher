@@ -23,9 +23,9 @@ fi
 mkdir -p $PKGDIR/DEBIAN
 # activitywatch's install location
 mkdir -p $PKGDIR/opt
-# Allows aw-qt to autostart.
+# Allows sd-qt to autostart.
 mkdir -p $PKGDIR/etc/xdg/autostart
-# Allows users to manually start aw-qt from their start menu.
+# Allows users to manually start sd-qt from their start menu.
 mkdir -p $PKGDIR/usr/share/applications
 
 # While storing the control file in a variable here, dumping it in a file is so unnecessarily
@@ -46,9 +46,9 @@ jdupes -L -r -S -Xsize-:1K $PKGDIR/opt/
 sudo chown -R root:root $PKGDIR
 
 # Prepare the .desktop file
-sudo sed -i 's!Exec=aw-qt!Exec=/opt/TTim/aw-qt!' $PKGDIR/opt/TTim/aw-qt.desktop
-sudo cp $PKGDIR/opt/TTim/aw-qt.desktop $PKGDIR/etc/xdg/autostart/
-sudo cp $PKGDIR/opt/TTim/aw-qt.desktop $PKGDIR/usr/share/applications/
+sudo sed -i 's!Exec=sd-qt!Exec=/opt/TTim/sd-qt!' $PKGDIR/opt/TTim/sd-qt.desktop
+sudo cp $PKGDIR/opt/TTim/sd-qt.desktop $PKGDIR/etc/xdg/autostart/
+sudo cp $PKGDIR/opt/TTim/sd-qt.desktop $PKGDIR/usr/share/applications/
 
 dpkg-deb --build $PKGDIR
 sudo mv TTim${VERSION_NUM}.deb dist/TTim-${VERSION}-linux-x86_64.deb

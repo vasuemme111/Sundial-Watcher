@@ -1,8 +1,8 @@
 #define MyAppName "TTim"
-#define MyAppVersion GetEnv('AW_VERSION')
+#define MyAppVersion GetEnv('SD_VERSION')
 #define MyAppPublisher "TTim Contributors"
 #define MyAppURL "https://TTim.net/"
-#define MyAppExeName "aw-qt.exe"
+#define MyAppExeName "sd-qt.exe"
 #define RootDir "..\.."
 #define DistDir "..\..\dist"
 
@@ -22,7 +22,7 @@ PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir={#DistDir}
 OutputBaseFilename=TTim-setup
-SetupIconFile="{#RootDir}\aw-qt\media\logo\logo.ico"
+SetupIconFile="{#RootDir}\sd-qt\media\logo\logo.ico"
 UninstallDisplayName={#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma
@@ -33,7 +33,7 @@ WizardStyle=modern
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "{#DistDir}\TTim\aw-qt.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#DistDir}\TTim\sd-qt.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#DistDir}\TTim\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [UninstallDelete]

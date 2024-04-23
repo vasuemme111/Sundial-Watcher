@@ -4,7 +4,7 @@ set -e
 
 # Source: https://www.update.rocks/blog/osx-signing-with-travis/
 export KEY_CHAIN=build.keychain
-export CERTIFICATE_P12=aw_certificate.p12
+export CERTIFICATE_P12=sd_certificate.p12
 
 # Recreate the certificate from the secure environment variable
 echo $CERTIFICATE_MACOS_P12_BASE64 | base64 --decode > $CERTIFICATE_P12
